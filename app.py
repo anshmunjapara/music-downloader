@@ -2,7 +2,6 @@ from flask import Flask, request, jsonify
 
 from download_mp3_from_yt import download_mp3_from_yt
 from search_yt import search_yt
-import yt_dlp
 
 app = Flask(__name__)
 
