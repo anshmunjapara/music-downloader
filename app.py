@@ -1,4 +1,6 @@
 from flask import Flask, request, jsonify
+
+from download_mp3_from_yt import download_mp3_from_yt
 from search_yt import search_yt
 import yt_dlp
 
@@ -22,6 +24,13 @@ def download():
 
     if not url:
         return jsonify({"status": "error", "message": "The URL is Empty"})
+
+    try:
+        mp3_file, title = download_mp3_from_yt(url)
+    except Exception as e:
+        print("--> Error")
+        print(e)
+        return jsonify({"status": "error", "message": "Failed: This is not a valid YouTube URL."})
 
     return jsonify({"status": "success", "message": "Download completed"})
 
