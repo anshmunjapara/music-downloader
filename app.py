@@ -1,7 +1,13 @@
+import os
+
 from flask import Flask, request, jsonify
 
 from download_mp3_from_yt import download_mp3_from_yt
 from search_yt import search_yt
+from utils import move_file
+
+FINAL_FOLDER = os.path.expanduser(os.getenv("FINAL_FOLDER"))
+os.makedirs(FINAL_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
 
@@ -30,6 +36,14 @@ def download():
         print("--> Error")
         print(e)
         return jsonify({"status": "error", "message": "Failed: This is not a valid YouTube URL."})
+
+    try:
+        move_file(mp3_file, FINAL_FOLDER)
+    except Exception as e:
+        print("--> Error")
+        print(e)
+        return jsonify({"status": "error", "message": "❌ Failed: Something went wrong while moving file. See "
+                                                      "logs for more info."})
 
     return jsonify({"status": "success", "message": "Download completed"})
 
