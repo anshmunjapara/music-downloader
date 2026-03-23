@@ -1,6 +1,7 @@
 import os
 
 from flask import Flask, request, jsonify
+from flask_cors import CORS
 
 from download_mp3_from_yt import download_mp3_from_yt
 from search_yt import search_yt
@@ -10,6 +11,7 @@ FINAL_FOLDER = os.path.expanduser(os.getenv("FINAL_FOLDER"))
 os.makedirs(FINAL_FOLDER, exist_ok=True)
 
 app = Flask(__name__)
+CORS(app)
 
 
 @app.route("/search", methods=["POST"])
@@ -20,7 +22,7 @@ def search():
         return jsonify({"status": "error", "message": "Query is empty"})
 
     results = search_yt(query)
-    return jsonify({"results": results})
+    return jsonify(results)
 
 
 @app.route("/download", methods=["POST"])
@@ -49,4 +51,4 @@ def download():
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=6000, debug=True)
+    app.run(host="0.0.0.0", port=5001, debug=True)
