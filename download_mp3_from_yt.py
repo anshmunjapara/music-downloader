@@ -19,33 +19,33 @@ def download_mp3_from_yt(url):
         'format': 'bestaudio/best',
         'outtmpl': os.path.join(TEMP_FOLDER, '%(title)s.%(ext)s'),
         'nocheckcertificate': True,
-        'writethumbnail': True,
+        # 'writethumbnail': True,
         'postprocessors': [
             {
                 'key': 'FFmpegExtractAudio',
                 'preferredcodec': 'mp3',
                 'preferredquality': '192',
             },
-            {
-                'key': 'FFmpegThumbnailsConvertor',
-                'format': 'jpg',
-            },
-            {
-                # 3. Embed the thumbnail into the MP3
-                'key': 'EmbedThumbnail',
-            },
-            {
-                # 4. Add metadata (Title, Artist, etc.)
-                'key': 'FFmpegMetadata',
-                'add_metadata': True,
-            }
+            # {
+            #     'key': 'FFmpegThumbnailsConvertor',
+            #     'format': 'jpg',
+            # },
+            # {
+            #     # 3. Embed the thumbnail into the MP3
+            #     'key': 'EmbedThumbnail',
+            # },
+            # {
+            #     # 4. Add metadata (Title, Artist, etc.)
+            #     'key': 'FFmpegMetadata',
+            #     'add_metadata': True,
+            # }
         ],
-        'postprocessor_args': {
-            'ffmpeg': [
-                # '-vf', 'crop=ih:ih,scale=500:500',  # Crops to center square & resizes
-                '-q:v', '5'  # Adjusts JPG quality (2-5 is good)
-            ]
-        }
+        # 'postprocessor_args': {
+        #     'ffmpeg': [
+        #         # '-vf', 'crop=ih:ih,scale=500:500',  # Crops to center square & resizes
+        #         '-q:v', '5'  # Adjusts JPG quality (2-5 is good)
+        #     ]
+        # }
     }
 
     with yt_dlp.YoutubeDL(ydl_options) as ydl:

@@ -4,6 +4,7 @@ from flask import Flask, request, jsonify
 from flask_cors import CORS
 
 from download_mp3_from_yt import download_mp3_from_yt
+from attach_metadata import attach_metadata
 from search_yt import search_yt
 from utils import move_file
 
@@ -38,6 +39,14 @@ def download():
         print("--> Error")
         print(e)
         return jsonify({"status": "error", "message": "Failed: This is not a valid YouTube URL."})
+
+    try:
+        mp3_file = attach_metadata(mp3_file, title)
+    except Exception as e:
+        print("--> Error")
+        print(e)
+        return jsonify({"status": "error", "message": "❌ Failed: Something went wrong while attaching metadata. See "
+                                                      "logs for more info."})
 
     try:
         move_file(mp3_file, FINAL_FOLDER)
